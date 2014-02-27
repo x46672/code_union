@@ -67,7 +67,7 @@
         <div class="container">
                 <div class="col-lg-3">
                     <% if current_user %>
-                        <%= link_to image_tag current_user.image %><br/>
+                        <%= link_to image_tag current_user.image, :id => "resize2" %><br/>
                         Username: <%= current_user.nickname %><br/>
                         Email: <%= current_user.email %><br/>
                         Joined: <%= current_user.created_at %><br/>
@@ -110,13 +110,10 @@
     <div class="banner" id="account-banner">
         <div class="container">
             <div class="row">
-                
             </div>
         </div>
         <!-- /.container -->
     </div>
-
-    <!-- /.banner -->
     <footer>
         <div class="container">
             <div class="row">
