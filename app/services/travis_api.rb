@@ -27,6 +27,5 @@ class TravisApi
       state:     state["last_build_status"],
       project_id: @project_id
     )
-    state
   end
 end

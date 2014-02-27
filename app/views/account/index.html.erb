@@ -67,7 +67,7 @@
         <div class="container">
                 <div class="col-lg-3">
                     <% if current_user %>
-                        <%= link_to image_tag current_user.large_image %><br/>
+                        <%= link_to image_tag current_user.image %><br/>
                         Username: <%= current_user.nickname %><br/>
                         Email: <%= current_user.email %><br/>
                         Joined: <%= current_user.created_at %><br/>

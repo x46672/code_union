@@ -23,7 +23,7 @@ class GithubApi
 
   def save_commit(commit)
     if commit.class != Array
-      acommit = Commit.create(
+      commit = Commit.create(
         username:  commit["committer"]["login"], 
         email:     commit["commit"]["committer"]["email"],
         date_time: commit["commit"]["committer"]["date"],
@@ -33,7 +33,7 @@ class GithubApi
         project_id: @project_id
         )
       
-      return acommit
+      return commit
     else
     end
     

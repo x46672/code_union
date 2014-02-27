@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 20140224045733) do
 
   create_table "commits", force: true do |t|
     t.string   "username"
-    t.string   "email"    
+    t.string   "email"
     t.string   "date_time"
     t.string   "message"
     t.string   "sha"
