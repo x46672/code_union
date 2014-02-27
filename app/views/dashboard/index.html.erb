@@ -1,0 +1,221 @@
+    <div id="wrapper"><!-- whole wrapper-->
+        <!-- Side Menu -->
+        <a id="menu-toggle" href="#" class="btn btn-default btn-lg toggle"><i class="service-icon-nav fa fa-plus-circle"></i></a>
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <a id="menu-close" href="#" class="btn btn-default btn-lg pull-right toggle"><i class="fa fa-times"></i></a>
+                <li class="sidebar-brand"><a href="http://localhost:3000">Code Union</a>
+                </li>
+                <li class="tp">
+                    <% if current_user %>
+                      Welcome <%= current_user.name %>!
+                      <%= link_to "Sign Out", signout_path %>
+                    <% else %>
+                      <%= link_to "Sign in with Github", "/auth/github" %>
+                    <% end %>
+                </li>
+                <li><a href="/account">Account</a>
+                </li>
+                <li><a href="/dashboard">dashboard</a>
+                </li>
+            </ul>
+        </div><!-- /Side Menu -->
+        <div id="page-wrapper"><!-- page-wrapper -->
+            <div class="row"><!-- header -->
+                <div class="col-lg-12">
+                    <h3 class="page-header"><font color="white">Project Dashboard</font></h3>
+                </div><!-- /header -->
+            </div>
+            <div class="row"><!-- first row -->
+                <div class="col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-list-alt fa-fw"></i> Pivotal Tracker
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body" id="pivotal-panel">
+                            <div class="chat">
+                                <% @stories.each do |story| %>
+                                <a href="#" class="list-group-item">
+                                    <i class="fa fa-comment fa-fw"></i> <%= story.story_name %>
+                                    <span class="pull-right text-muted small"><em><%= story.current_state %></em>
+                                    </span>
+                                </a>
+                                <% end %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="col-lg-4">
+                    <div class="panel panel-default" >
+                        <div class="panel-heading">
+                            <i class="fa fa-comments fa-github"></i>
+                            GitHub Commits
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body" id="github-panel">
+                            <ul class="chat">
+                                <% @commits.each do |commit| %>
+                                <li class="left clearfix">
+                                    <span class="chat-img pull-left">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" />
+
+                                    </span>
+                                    <div class="chat-body clearfix">
+                                        <div>
+                                            <strong class="primary-font"><%= commit.username %></strong> 
+                                            <small class="pull-right text-muted">
+                                                <i class="fa fa-clock-o fa-fw"></i> <%= format_time(commit.date_time) %>
+                                            </small>
+                                        </div>
+                                        <p>
+                                            <%= commit.message %>
+                                        </p>
+                                    </div>
+                                </li>
+                                <% end %>
+                            </ul>
+                        </div>
+                        <!-- /.panel-body -->
+                        <!-- <div class="panel-footer">
+                            
+                        </div> -->
+                        <!-- /.panel-footer -->
+                    </div>
+                    <!-- /.panel .chat-panel -->
+                </div>
+                <!--3rd main row-->
+                <div class="col-lg-4"><!--3rd main row-->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-bar-chart-o fa-fw"></i> Code Climate Score
+                        </div>
+                        <div class="panel-body" id="climate-panel">
+                            <% @scores.each do |score| %>
+                            <center><h1>GPA=&nbsp;<%= score.score %></h1></center>
+                            <% end %>
+                            <center><canvas id="roundchart" width="275" height="275"></center>
+                                <script type="text/javascript">
+                                  $(document).ready(function(){
+                                    var data = [
+                                        {
+                                            value: 30,
+                                            color:"#F7464A"
+                                        },
+                                        {
+                                            value : 50,
+                                            color : "#E2EAE9"
+                                        },
+                                        {
+                                            value : 100,
+                                            color : "#D4CCC5"
+                                        },
+                                        {
+                                            value : 40,
+                                            color : "#949FB1"
+                                        },
+                                        {
+                                            value : 120,
+                                            color : "#4D5360"
+                                        }
+
+                                    ]
+                                    
+                                    var ctx = document.getElementById("roundchart").getContext("2d");
+                                    var myNewChart = new Chart(ctx).Doughnut(data);
+                                  });
+                                </script>
+                            </canvas>
+                            <ul class="chat">
+                                <% @commits.each do |commit| %>
+                                <li class="left clearfix">
+                                    <span class="chat-img pull-left">
+                                        <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" />
+
+                                    </span>
+                                    <div class="chat-body clearfix">
+                                        <div>
+                                            <strong class="primary-font"><%= commit.username %></strong> 
+                                            <small class="pull-right text-muted">
+                                                <i class="fa fa-clock-o fa-fw"></i> <%= format_time(commit.date_time) %>
+                                            </small>
+                                        </div>
+                                        <p>
+                                            <%= commit.message %>
+                                        </p>
+                                    </div>
+                                </li>
+                                <% end %>
+                            </ul>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <i class="fa fa-bar-chart-o fa-code"></i>Travis CI
+                                </div>
+                                <!-- /.panel-heading -->
+                                <div class="panel-body" id="travis-panel">
+                                    <% @states.each do |state| %>
+                                    <% if state.state == 0 %>
+                                        <center><h1><font color="green">PASSING</font></h1></center>
+                                    <% else state.state == 1 %>
+                                        <center><h1><font color="red">FAILING</font></h1></center>
+                                        <% end %>
+                                    <% end %>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!--last main row-->
+            </div>
+            
+        </div><!-- /page-wrapper -->
+    </div><!-- /whole wrapper-->
+    <script src="js/jquery-1.10.2.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+
+    <!-- Page-Level Plugin Scripts - Panels and Wells -->
+
+    <!-- SB Admin Scripts - Include with every page -->
+    <script src="js/sb-admin.js"></script>
+    <script src="javascripts/Chart.js"></script>
+    <script src="javascripts/Chart-min.js"></script>
+
+
+
+    <!-- Custom JavaScript for the Side Menu and Smooth Scrolling -->
+    <script>
+    $("#menu-close").click(function(e) {
+        e.preventDefault();
+        $("#sidebar-wrapper").toggleClass("active");
+    });
+    </script>
+    <script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#sidebar-wrapper").toggleClass("active");
+    });
+    </script>
+    <script>
+    $(function() {
+        $('a[href*=#]:not([href=#])').click(function() {
+            if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') || location.hostname == this.hostname) {
+
+                var target = $(this.hash);
+                target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                if (target.length) {
+                    $('html,body').animate({
+                        scrollTop: target.offset().top
+                    }, 1000);
+                    return false;
+                }
+            }
+        });
+    });
+    </script>

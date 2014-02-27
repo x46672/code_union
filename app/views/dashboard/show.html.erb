@@ -1,0 +1,185 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <title>Code Union Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <%= stylesheet_link_tag "dash.css" %>
+    <link href="http://leapfrogui.com/controlfrog/cf/css/bootstrap.css" rel="stylesheet">
+    <link href="http://leapfrogui.com/controlfrog/cf/css/controlfrog.css" rel="stylesheet" media="screen">   
+  
+
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>    
+    <script src="http://leapfrogui.com/controlfrog/cf/js/moment.js"></script>  
+    <script src="http://leapfrogui.com/controlfrog/cf/js/easypiechart.js"></script>
+    <script src="http://leapfrogui.com/controlfrog/cf/js/gauge.js"></script> 
+    <script src="http://leapfrogui.com/controlfrog/cf/js/chart.js"></script>
+    <script src="http://leapfrogui.com/controlfrog/cf/js/jquery.sparklines.js"></script>     
+    <script src="http://leapfrogui.com/controlfrog/cf/js/bootstrap.js"></script>
+    <script src="http://leapfrogui.com/controlfrog/cf/js/controlfrog-plugins.js"></script>
+  
+    <!--[if lt IE 9]>
+    <script src="../../js/respond.min.js"></script>
+    <script src="../../js/excanvas.min.js"></script>
+  <![endif]-->
+    
+  <script>
+    var themeColour = 'black';
+  </script>
+    <script src="http://leapfrogui.com/controlfrog/cf/js/controlfrog.js"></script>
+</head>
+<body class="black">
+  <div class="cf-nav cf-nav-state-min">
+    <a href="" class="cf-nav-toggle">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </a>
+    
+    <ul>
+      <li class="cf-nav-shortcut">
+        <a href="">
+          <span class="cf-nav-min fa fa-home fa-fw"></span>
+          <span class="cf-nav-max">Home<%= link_to "", root_path %></span>
+        </a>
+      </li>
+      <li class="cf-nav-shortcut">
+        <a href="">
+          <span class="cf-nav-min fa fa-user fa-fw"></span>
+          <span class="cf-nav-max">My Account<%= link_to "", account_path %></span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="cf-container cf-nav-active">
+    <div class="row">
+      <div class="col-sm-3 cf-item">
+        <header>
+          <p><span></span>Github Commits</p>
+        </header>
+        <div class="content">
+            <div class="panel-body" id="github-panel">
+                <ul class="chat">
+                    <% @commits.each do |commit| %>
+                    <li class="left clearfix">
+                        <span class="chat-img pull-left">
+                            <%= link_to image_tag commit.pic, :class => "img-circle", :id => "resize" %>
+                        </span>
+                        <div class="chat-body clearfix">
+                            <div>
+                                <strong class="primary-font"><%= commit.username %></strong> 
+                                <small class="pull-right text-muted">
+                                    <i class="fa fa-clock-o fa-fw"></i> <%= format_time(commit.date_time) %>
+                                </small>
+                            </div>
+                            <h5>
+                                <%= commit.message %>
+                            </h5>
+                        </div>
+                    </li>
+                    <% end %>
+                </ul>
+            </div>
+        </div>
+      </div> <!-- //end cf-item -->
+
+      <div class="col-sm-3 cf-item">
+        <header>
+          <p><span></span>Pivotal Tracker</p>
+        </header>
+        <div class="panel-body" id="pivotal-panel">
+            <div class="chat">
+                <% @stories.each do |story| %>
+                <h4><a class="chat-body clearfix">
+                    <i class="fa fa-comment fa-fw"></i> <%= story.story_name %>
+                    <span class="pull-right text-muted small"><em><%= story.current_state %></em>
+                    </span>
+                </a></h4>
+                <% end %>
+            </div>
+        </div>
+      </div> <!-- //end cf-item -->
+      <div class="col-sm-3 cf-item">
+        <!--Display the time and date For 12hr clock add class 'cf-td-12' to the 'cf-td' div-->
+        <header>
+          <p><span></span>Time &amp; date</p>
+        </header>
+        <div class="content">
+          <div class="cf-td">
+          <!-- <div class="cf-td cf-td-12">-->
+            <div class="cf-td-time metric">12:00</div>
+            <div class="cf-td-dd">
+              <p class="cf-td-day metric-small">Monday</p>
+              <p class="cf-td-date metric-small">1st October, 2013</p>
+            </div>
+          </div>
+        </div>
+      </div> <!-- //end cf-item -->
+      <div class="col-sm-3 cf-item">
+        <header>
+          <p><span></span>Single metric &amp; change</p>
+        </header>
+        <div class="content">
+          <div class="cf-svmc">
+            <div class="metric">3500</div>
+            <div class="change m-red metric-small">
+              <div class="arrow-down"></div>
+              <span class="large">32<span class="small">.45%</span></span>
+            </div>
+          </div>
+        </div>
+      </div> <!-- //end cf-item -->
+    </div> <!-- //end row -->
+    <br/>
+    <br/>
+    <div class="row">
+      <div class="col-sm-3 cf-item">
+        <header>
+          <p><span></span>Pie chart</p>
+        </header>
+        <div class="content cf-pie" id="cf-pie-1">
+          <center><canvas id="cf-pie-1-c" width="0" height="0"></canvas></center>
+        </div>
+      </div> <!-- //end cf-item -->
+      <div class="col-sm-3 cf-item">
+        <header>
+          <p><span></span>RAG Bars</p>
+        </header>
+        <div class="content">
+          <div id="cf-rag-1" class="cf-rag"></div>
+        </div>
+      </div> <!-- //end cf-item -->
+      <div class="col-sm-3 cf-item">
+        <header>
+          <p><span></span>Funnel Chart</p>
+        </header>
+        <div class="content">
+          <div id="cf-funnel-1" class="cf-funnel"></div>
+        </div>
+      </div> <!-- //end cf-item -->
+      <div class="col-sm-3 cf-item">
+        <header>
+          <p><span></span>Travis CI</p>
+        </header>
+        <div id="travis-panel">
+        <% @states.each do |state| %>
+            <% if state.state == [] %>
+                <center><h1><font color="yellow">REPO EMPTY</font></h1></center>
+            <% elsif state.state == nil %>
+                <center><h1><font color="yellow">NO STATUS</font></h1></center>
+            <% elsif state.state == 0 %>
+                <center><h1><font color="green">PASSING</font></h1></center>
+            <% else state.state == 1 %>
+                <center><h1><font color="red">FAILING</font></h1></center>
+                <% end %>
+            <% end %>
+        </div>
+      </div> <!-- //end cf-item -->
+    </div> <!-- //end row -->
+
+  </div> <!-- //end container -->
+</body>
+</html>

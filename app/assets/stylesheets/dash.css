@@ -1,0 +1,25 @@
+#github-panel{
+    max-height: 110%;
+    overflow: scroll;
+}
+
+#pivotal-panel{
+    max-height: 90%;
+    overflow: scroll;
+}
+
+#climate-panel{
+    max-height: 500px;
+    overflow: scroll;
+}
+
+#travis-panel{
+    max-height: 90%;
+    overflow: scroll;
+    padding-top: 0px;
+}
+
+#resize{
+  width:100px;
+  height:100px;
+}

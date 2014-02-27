@@ -1,0 +1,148 @@
+
+    
+    <%= stylesheet_link_tag "default.css" %>
+    <%= stylesheet_link_tag "bootstrap.css" %>
+    <%= stylesheet_link_tag "landing-page.css" %>
+    <!-- Bootstrap core CSS -->
+    <!-- <link href="http://startbootstrap.com/templates/landing-page/css/bootstrap.css" rel="stylesheet"> -->
+
+    <!-- Custom Google Web Font -->
+    <link href="http://startbootstrap.com/templates/landing-page/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
+
+
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="http://localhost:3000">CODE UNION</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-right navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <% if current_user %>
+                    </li>
+                    <li><%= link_to "Sign Out", signout_path %>
+                    </li>
+                    <li><%= link_to "My Account", account_index_path %>
+                    </li>
+                        <% else %>
+                        <%= link_to "Sign in with Github", "/auth/github" %>
+                        <% end %>
+                    </li>
+                    <li><%= link_to "Home", root_path %>
+                    </li>
+                    <!-- <li><a href="#about">About</a>
+                    </li>
+                    -->
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+    <div class="intro-header" id="intro-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="intro-message">
+                        <h1><%= current_user.name %>'s Account</h1>
+                        <hr class="intro-divider">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.container -->
+    </div>
+    <!-- /.intro-header -->
+    <div class="content-section-b">
+        <div class="container">
+                <div class="col-lg-3">
+                    <% if current_user %>
+                        <%= link_to image_tag current_user.large_image %>
+                        Username: <%= current_user.nickname %><br/>
+                        Email: <%= current_user.email %><br/>
+                        Joined: <%= current_user.created_at %><br/>
+                    <% end %>
+                </div>
+                <div class="col-lg-9" id="scrolly">
+                    <ul id="cbp-ntaccordion" class="cbp-ntaccordion">
+                        <li>
+                             
+                            <h3>Add A New Project</h3>
+                            <div>
+                                <%= form_tag("/project", method: :post) do %>
+                                <%= hidden_field_tag :project, @project.id  %>
+                                <label for="lookup">Name</label><br/>
+                                  <%= text_field_tag(:name) %><br/><br/>
+                                  <label for="lookup">Pivotal Story</label><br/>
+                                  <%= text_field_tag(:pivotal) %><br/><br/>
+                                  <label for="lookup">Github</label><br/>
+                                  <%= text_field_tag(:git_hub) %><br/><br/>
+                                  <label for="lookup">Code Climate</label><br/>
+                                  <%= text_field_tag(:code) %><br/><br/>
+                                  <label for="lookup">Travis</label><br/>
+                                  <%= text_field_tag(:travis) %><br/><br/>
+                                  <%= submit_tag("SAVE") %>
+                                <% end %>
+                            </div>
+                        </li>
+                        <li>
+                    </ul> 
+                </div>
+            <!-- </div> -->
+        </div>
+        <!-- /.container -->
+    </div>
+    <!-- /.content-section-b -->
+    <div class="content-section-a">
+        <div class="container">
+            <div class="row">
+            </div>
+        </div>
+        <!-- /.container -->
+    </div>
+    <!-- /.content-section-a -->
+    <div class="banner" id="account-banner">
+        <div class="container">
+            <div class="row">
+                
+            </div>
+        </div>
+        <!-- /.container -->
+    </div>
+    <!-- /.banner -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="list-inline">
+                        <li><%= link_to "Home", root_path %>
+                        </li>
+                        <li class="footer-menu-divider">&sdot;</li>
+                        <li><a href="/about">About</a>
+                        </li>
+                        <li class="footer-menu-divider">&sdot;</li>
+                        <li><a href="/services">Services</a>
+                        </li>
+                        <li class="footer-menu-divider">&sdot;</li>
+                        <li><a href="/contact">Contact</a>
+                        </li>
+                    </ul>
+                    <p class="copyright text-muted small">Copyright &copy; Code Union 2014. All Rights Reserved</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="http://startbootstrap.com/templates/landing-page/js/jquery-1.10.2.js"></script>
+    <script src="jhttp://startbootstrap.com/templates/landing-page/js/bootstrap.js"></script>
+
